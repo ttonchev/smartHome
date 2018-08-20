@@ -10,16 +10,46 @@ LGTV::LGTV() : irSender(TV_IR_PIN_SENDER) {
 }
 
 void LGTV::on() {
-  PRINTLN("Power ON the LG TV");
-//  sendSignal(LG_TV__CODE_MTEL_POWER_ON);
- sendSignal(LG_TV__CODE_POWER_ON);
+ PRINTLN("Power ON the LG TV");
+ sendSignal(LG_TV__CODE_MTEL_POWER_ON_OFF);
+ delay(TIMEOUT);
+ sendSignal(LG_TV__CODE_POWER_ON_OFF);
+ //sendSignal(LG_TV__CODE_POWER_ON_OFF);
+}
 
- //if (irrecv.decode(&results)) {
-   // Display a crude timestamp.
-//    uint32_t now = millis();
-//    Serial.printf("Timestamp : %06u.%03u\n", now / 1000, now % 1000);
+void LGTV::off() {
+  PRINTLN("Power Off the LG TV");
+  sendSignal(LG_TV__CODE_MTEL_POWER_ON_OFF);
+  delay(TIMEOUT);
+  sendSignal(LG_TV__CODE_POWER_ON_OFF);
+//  sendSignal(LG_TV__CODE_POWER_ON_OFF);
+}
 
- //}
+void LGTV::up() {
+  PRINTLN("Channel up");
+  sendSignal(MTEL_TV__CODE_CHANNEL_UP);
+}
+
+void LGTV::down() {
+  PRINTLN("Channel down");
+  sendSignal(MTEL_TV__CODE_CHANNEL_DOWN);
+}
+
+void LGTV::play() {
+  PRINTLN("PLAY/PAUSE");
+  sendSignal(MTEL_TV__CODE_PAUSE_PLAY);
+}
+
+void LGTV::rewind() {
+  sendSignal(MTEL_TV__CODE_REWIND);
+}
+
+void LGTV::forward() {
+  sendSignal(MTEL_TV__CODE_FORWARD);
+}
+
+void LGTV::begining() {
+  sendSignal(MTEL_TV__CODE_BEGINING);
 }
 
 void LGTV::channel(std::string ch) {
@@ -27,23 +57,18 @@ void LGTV::channel(std::string ch) {
 
   for (int i = 0; i < ch.length(); i++) {
     switch (ch[i]) {
-      case '1': sendSignal(LG_TV__CODE_1); break;
-      case '2': sendSignal(LG_TV__CODE_2); break;
-      case '3': sendSignal(LG_TV__CODE_3); break;
-      case '4': sendSignal(LG_TV__CODE_4); break;
-      case '5': sendSignal(LG_TV__CODE_5); break;
-      case '6': sendSignal(LG_TV__CODE_6); break;
-      case '7': sendSignal(LG_TV__CODE_7); break;
-      case '8': sendSignal(LG_TV__CODE_8); break;
-      case '9': sendSignal(LG_TV__CODE_9); break;
-      case '0': sendSignal(LG_TV__CODE_0); break;
+      case '1': sendSignal(MTEL_TV__CODE_1); delay(TIMEOUT); break;
+      case '2': sendSignal(MTEL_TV__CODE_2); delay(TIMEOUT); break;
+      case '3': sendSignal(MTEL_TV__CODE_3); delay(TIMEOUT); break;
+      case '4': sendSignal(MTEL_TV__CODE_4); delay(TIMEOUT); break;
+      case '5': sendSignal(MTEL_TV__CODE_5); delay(TIMEOUT); break;
+      case '6': sendSignal(MTEL_TV__CODE_6); delay(TIMEOUT); break;
+      case '7': sendSignal(MTEL_TV__CODE_7); delay(TIMEOUT); break;
+      case '8': sendSignal(MTEL_TV__CODE_8); delay(TIMEOUT); break;
+      case '9': sendSignal(MTEL_TV__CODE_9); delay(TIMEOUT); break;
+      case '0': sendSignal(MTEL_TV__CODE_0); delay(TIMEOUT); break;
     }
   }
-}
-
-void LGTV::off() {
-  PRINTLN("Power Off the LG TV");
-  sendSignal(LG_TV__CODE_POWER_OFF);
 }
 
 void LGTV::sendSignal(unsigned long signal_code) {

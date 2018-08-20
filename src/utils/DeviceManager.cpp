@@ -6,7 +6,8 @@ DeviceManager::DeviceManager() :
   chuwiCtl(new Chuwi()),
   lgCtl(new LGTV()),
   ac(new MitsubishiAC()) ,
-  lightSwitch(new RFLightSwitch) {}
+  lightSwitch(new RFLightSwitch),
+  air(new RFBathAirSwitch) {}
 
 void DeviceManager::processRequest(char *topic, char *command, PubSubClient   mqttClient) {
   int slashIndex  = String(topic).lastIndexOf("Room");
@@ -29,9 +30,11 @@ void DeviceManager::processRequest(char *topic, char *command, PubSubClient   mq
   } else if (strcasecmp("LIGHT", deviceName.c_str()) == 0) {
     controlLight(command, mqttTopicGet, mqttClient);
   } else if (strcasecmp("TV", deviceName.c_str()) == 0) {
-    controlTV(command, mqttTopicGet, mqttClient);
+    controlTV(setting, command, mqttTopicGet, mqttClient);
   } else if (strcasecmp("AC", deviceName.c_str()) == 0) {
     controlAC(setting, command, mqttTopicGet, mqttClient);
+  } else if (strcasecmp("AIR", deviceName.c_str()) == 0) {
+    controlAir(setting, command, mqttTopicGet, mqttClient);
   }
 }
 
@@ -57,9 +60,25 @@ void DeviceManager::controlChuwi(char *command, String mqttTopicGet, PubSubClien
   }
 }
 
-void DeviceManager::controlTV(char *command, String mqttTopicGet, PubSubClient   mqttClient) {
+void DeviceManager::controlTV(String setting, char *command, String mqttTopicGet, PubSubClient   mqttClient) {
   if (strcasecmp(command, "on") == 0) {
     lgCtl->on();
+  } else if (strcasecmp(command, "off") == 0) {
+    lgCtl->off();
+  } else if (strcasecmp(command, "up") == 0) {
+    lgCtl->up();
+  } else if (strcasecmp(command, "down") == 0) {
+    lgCtl->down();
+  } else if (setting == "play") {
+    lgCtl->play();
+  } else if (setting == "rewind") {
+    lgCtl->rewind();
+  } else if (setting == "forward") {
+    lgCtl->forward();
+  } else if (setting == "begining") {
+    lgCtl->begining();
+  } else if (strcasecmp(setting.c_str(), "changeChannel") == 0) {
+    lgCtl->channel(command);
   }
 }
 
@@ -73,12 +92,26 @@ void DeviceManager::controlAC(String setting, char *command, String mqttTopicGet
     }
   } else if (strcasecmp("mode", setting.c_str()) == 0) {
     ac->mode(command);
-  } else if (strcasecmp("vane", setting.c_str()) == 0) {
-    ac->vaneMode(command);
   } else if (strcasecmp("temp", setting.c_str()) == 0) {
     ac->setTemp(String(command).toInt());
   } else if (strcasecmp("fan", setting.c_str()) == 0) {
     ac->setFan(String(command).toInt());
+  }
+}
+
+void DeviceManager::controlAir(String setting, char *command, String mqttTopicGet, PubSubClient   mqttClient) {
+  if(strcasecmp("bath", setting.c_str()) == 0) {
+    if(strcasecmp(command, "on") == 0) {
+      air->bathOn();
+    } else {
+      air->bathOff();
+    }
+  } else if(strcasecmp("wc", setting.c_str()) == 0) {
+    if(strcasecmp(command, "on") == 0) {
+      air->wcOn();
+    } else {
+      air->wcOff();
+    }
   }
 }
 

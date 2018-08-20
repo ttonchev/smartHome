@@ -8,8 +8,8 @@ void MitsubishiAC::on() {
   PRINTLN("Power ON the AC");
   mitsubir.on();
   mitsubir.setFan(3);
-  mitsubir.setMode(MITSUBISHI_AC_HEAT);
-  mitsubir.setTemp(30);
+  mitsubir.setMode(MITSUBISHI_AC_VANE_AUTO);
+  mitsubir.setTemp(24);
   mitsubir.setVane(MITSUBISHI_AC_VANE_AUTO);
   mitsubir.send();
 }
@@ -32,6 +32,7 @@ void MitsubishiAC::mode(String mode) {
   }
   mitsubir.send();
 }
+/*
 void MitsubishiAC::vaneMode(String mode) {
   if (mode == "AUTO") {
     mitsubir.setVane(MITSUBISHI_AC_VANE_AUTO);
@@ -46,6 +47,7 @@ void MitsubishiAC::vaneMode(String mode) {
   }
   mitsubir.send();
 }
+*/
 void MitsubishiAC::setTemp(int temp) {
   mitsubir.setTemp(temp);
   mitsubir.send();
