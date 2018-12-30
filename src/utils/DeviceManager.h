@@ -6,6 +6,7 @@
 #include<devices/LGTV.h>
 #include<devices/MitsubishiAC.h>
 #include<devices/RFBathAirSwitch.h>
+#include<devices/RFWCAirSwitch.h>
 #include <utils/JsonUtils.h>
 #include <PubSubClient.h>
 
@@ -24,7 +25,8 @@ private:
   RFLightSwitch *lightSwitch;
   LGTV *lgCtl;
   MitsubishiAC *ac;
-  RFBathAirSwitch *air;
+  RFBathAirSwitch *bathAir;
+  RFWCAirSwitch *wcAir;
   //IRMitsubishiAC *mitsubir;
   void controlChuwi(char         *command,
                     String       mqttTopicGet,
@@ -40,8 +42,10 @@ private:
                  char         *command,
                 String       mqttTopicGet,
                 PubSubClient mqttClient);
-  void controlAir(String        setting,
-                 char         *command,
+  void controlBathAir(char         *command,
+                 String       mqttTopicGet,
+                 PubSubClient mqttClient);
+  void controlWCAir(char         *command,
                  String       mqttTopicGet,
                  PubSubClient mqttClient);
   void processResponse(const char  *messageId,

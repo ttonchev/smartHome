@@ -25,14 +25,34 @@ void LGTV::off() {
 //  sendSignal(LG_TV__CODE_POWER_ON_OFF);
 }
 
-void LGTV::up() {
+void LGTV::channelUp() {
   PRINTLN("Channel up");
   sendSignal(MTEL_TV__CODE_CHANNEL_UP);
 }
 
-void LGTV::down() {
+void LGTV::channelDown() {
   PRINTLN("Channel down");
   sendSignal(MTEL_TV__CODE_CHANNEL_DOWN);
+}
+
+void LGTV::up() {
+  PRINTLN("up");
+  sendSignal(LG_TV__CODE_UP);
+}
+
+void LGTV::down() {
+  PRINTLN("down");
+  sendSignal(LG_TV__CODE_DOWN);
+}
+
+void LGTV::left() {
+  PRINTLN("left");
+  sendSignal(LG_TV__CODE_LEFT);
+}
+
+void LGTV::right() {
+  PRINTLN("right");
+  sendSignal(LG_TV__CODE_RIGHT);
 }
 
 void LGTV::play() {
@@ -76,16 +96,24 @@ void LGTV::sendSignal(unsigned long signal_code) {
 }
 
 void LGTV::hdmi1() {
-  /*uint16_t rawbuf[36] = {
-     0x0000, 0x0067, 0x0000, 0x0010, 0x0060, 0x0018, 0x0018, 0x0018, 0x0030, 0x0018, 0x0018, 0x0018, 0x0030, 0x0018,
-     0x0030, 0x0018, 0x0018, 0x0018, 0x0030, 0x0018, 0x0018, 0x0018, 0x0030, 0x0018, 0x0018, 0x0018, 0x0030, 0x0018,
-     0x0030, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0338
-     };*/
-
-  uint16_t rawbuf[30] =
-  { 0x0000, 0x0067, 0x0000, 0x000d, 0x0060, 0x0019, 0x0030, 0x0018, 0x0030, 0x0018, 0x0030, 0x0018, 0x0018, 0x0018,
-    0x0018, 0x0019, 0x0018, 0x0018, 0x0030, 0x0018, 0x0030, 0x0018, 0x0018, 0x0018, 0x0018, 0x0019, 0x0018, 0x0018,
-    0x0018, 0x03f4 };
-
-  irSender.sendRaw(rawbuf, 30, 38 /* kHz */);
+  sendSignal(LG_TV__CODE_OUTPUT_SELECT);
+  delay(TIMEOUT*3);
+  sendSignal(LG_TV__CODE_DOWN);
+  delay(TIMEOUT);
+  sendSignal(LG_TV__CODE_DOWN);
+  delay(TIMEOUT);
+  sendSignal(LG_TV__CODE_OK);
+}
+void LGTV::netflix(char *command) {
+  if (strcasecmp(command, "1") == 0) {
+    sendSignal(LG_TV__CODE_HOME);
+    delay(TIMEOUT*3);
+    sendSignal(LG_TV__CODE_RIGHT);
+    delay(TIMEOUT);
+    sendSignal(LG_TV__CODE_OK);
+    delay(TIMEOUT*2);
+    sendSignal(LG_TV__CODE_OK);
+} else if(strcasecmp(command, "0") == 0) {
+    sendSignal(LG_TV__CODE_EXIT);
+  }
 }

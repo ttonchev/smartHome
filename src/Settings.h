@@ -11,6 +11,8 @@
 #define MQTT_USER "xxxxx"
 #define MQTT_PASS "xxxxx"
 #define MQTT_SUBSCRIBE_TOPIC "set/apartment/livingRoom/#"
+#define MQTT_SUBSCRIBE_TOPIC_2 "set/apartment/bathRoom/#"
+#define MQTT_SUBSCRIBE_TOPIC_3 "set/apartment/wcRoom/#"
 
 #define AC_IR_PIN_SENDER 4   // AC IR LED PIN
 #define TV_IR_PIN_SENDER 4     // TV IR LED PIN

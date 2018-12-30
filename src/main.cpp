@@ -45,6 +45,9 @@ void mqttReconnectIfNeeded() {
     if (mqttClient.connect("xnabysnk", MQTT_USER, MQTT_PASS, cleanSession)) {
       // mqttClient.publish(MQTT_SUBSCRIBE_TOPIC, "", 1, true); // clear the retain message for specific topic
       mqttClient.subscribe(MQTT_SUBSCRIBE_TOPIC, 1);
+      mqttClient.subscribe(MQTT_SUBSCRIBE_TOPIC_2, 1);
+      mqttClient.subscribe(MQTT_SUBSCRIBE_TOPIC_3, 1);
+
       PRINTLN("Connected");
     } else {
       PRINT("failed, rc=");

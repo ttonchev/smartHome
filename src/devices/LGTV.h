@@ -30,7 +30,10 @@
 #define LG_TV__CODE_RIGHT 0x20DF609F
 #define LG_TV__CODE_LEFT 0x20DFE01F
 #define LG_TV__CODE_EXIT 0x20DFDA25
-#define LG_TV__CODE_OUTPUT_SELECT 0x670
+#define LG_TV__CODE_OUTPUT_SELECT 0x20DFD02F
+#define LG_TV__CODE_OK 0x20DF22DD
+#define LG_TV__CODE_HOME 0x20DF3EC1
+#define LG_TV__CODE_BACK 0x20DF14EB
 
 #include <string>
 #include <IRsend.h> // https://github.com/markszabo/IRremoteESP8266
@@ -42,8 +45,12 @@ public:
   LGTV();
   void on();
   void channel(std::string ch);
+  void channelUp();
+  void channelDown();
   void up();
   void down();
+  void left();
+  void right();
   void play();
   void rewind();
   void forward();
@@ -51,6 +58,7 @@ public:
   void sendSignal(unsigned long signal_code);
   void hdmi1();
   void off();
+  void netflix(char *command);
 
 private:
 
